@@ -1,0 +1,19 @@
+{
+  "companyName": "Mi empresa de interpretación",
+  "privacy": {
+    "clearOnCallEnd": true,
+    "inactivityClearMinutes": 5,
+    "maxEntriesOnScreen": 40,
+    "allowCopy": false,
+    "blurWhenUnfocused": true,
+    "maskIdentifiers": false
+  },
+  "models": {
+    "source": "remote",
+    "asr": "onnx-community/whisper-base"
+  },
+  "display": {
+    "englishSpeakerLabel": "Proveedor (EN)",
+    "spanishSpeakerLabel": "Paciente (ES)"
+  }
+}

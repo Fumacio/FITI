@@ -1,0 +1,150 @@
+:root {
+  --bg: #f7f7f5;
+  --panel: #ffffff;
+  --text: #1b1d21;
+  --muted: #646a73;
+  --line: #e3e4e6;
+  --en: #1f5fbf;
+  --es: #0f7a4f;
+  --accent: #1f5fbf;
+  --danger: #b42318;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141518;
+    --panel: #1c1e22;
+    --text: #e8e9eb;
+    --muted: #9aa0a8;
+    --line: #2c2f35;
+    --en: #7aa7f0;
+    --es: #5cc79a;
+    --accent: #5b8fe6;
+    --danger: #f0706a;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.45 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  padding: 12px 16px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.brand { font-weight: 700; font-size: 18px; }
+.brand .sub { font-weight: 500; color: var(--muted); font-size: 14px; margin-left: 4px; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; }
+.status { display: flex; align-items: center; gap: 10px; }
+
+select, button {
+  font: inherit;
+  font-size: 14px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+}
+select { max-width: 320px; }
+button { cursor: pointer; }
+button:disabled { opacity: 0.55; cursor: default; }
+button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+button.danger { color: var(--danger); border-color: currentColor; }
+
+.pill {
+  font-size: 13px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--line);
+}
+.pill.live { background: var(--danger); color: #fff; }
+
+.meter { width: 80px; height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.meter span { display: block; height: 100%; width: 0; background: var(--es); transition: width 80ms linear; }
+
+.progress { padding: 6px 16px; font-size: 13px; color: var(--muted); border-bottom: 1px solid var(--line); }
+
+.transcript { flex: 1; padding: 8px 16px 24px; }
+.row {
+  display: grid;
+  grid-template-columns: 130px 1fr 1fr;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 19px;
+}
+.row.head {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  position: sticky;
+  top: 61px;
+  background: var(--bg);
+}
+.row.head small { text-transform: none; letter-spacing: 0; font-weight: 400; }
+.row .speaker { font-size: 13px; font-weight: 600; padding-top: 4px; }
+.row.en .speaker { color: var(--en); }
+.row.es .speaker { color: var(--es); }
+.row .translation { color: var(--muted); }
+.row.latest .original, .row.latest .translation { color: var(--text); }
+.row.pending .original { color: var(--muted); font-style: italic; font-size: 15px; }
+
+.empty { color: var(--muted); max-width: 560px; margin: 48px auto; text-align: center; }
+
+.foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 16px;
+  font-size: 13px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  background: var(--panel);
+}
+kbd { border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; font-size: 12px; }
+
+dialog {
+  max-width: 560px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--text);
+}
+dialog::backdrop { background: rgb(0 0 0 / 0.45); }
+dialog ul { list-style: none; padding: 0; }
+dialog li { margin: 10px 0; }
+dialog label { display: flex; gap: 10px; align-items: flex-start; }
+dialog input { margin-top: 4px; }
+dialog menu { display: flex; justify-content: flex-end; gap: 8px; padding: 0; }
+
+/* Protecciones de la política */
+body.no-copy .transcript { user-select: none; -webkit-user-select: none; }
+body.privacy-blur .transcript { filter: blur(14px); }
+@media print {
+  .transcript { display: none !important; }
+}
+
+@media (max-width: 720px) {
+  .row { grid-template-columns: 1fr; gap: 4px; font-size: 17px; }
+  .row.head { display: none; }
+}

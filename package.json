@@ -1,0 +1,22 @@
+{
+  "name": "fiti",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Asistente en pantalla para intérpretes médicos EN<>ES: transcripción y traducción 100% local, sin almacenamiento.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "3.8.1"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "vite": "6.4.5",
+    "vitest": "3.2.7"
+  }
+}

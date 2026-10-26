@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <title>FITI · Apoyo para intérpretes</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <div class="brand">FITI <span class="sub">EN ⇄ ES</span></div>
+      <div class="controls">
+        <select id="source" aria-label="Fuente de audio">
+          <option value="system">Audio del sistema / pestaña de la llamada</option>
+        </select>
+        <button id="start" class="primary" disabled>Cargando modelos…</button>
+        <button id="end" class="danger" disabled>Terminar llamada y borrar</button>
+      </div>
+      <div class="status">
+        <span id="state" class="pill">Inactivo</span>
+        <span class="meter" aria-hidden="true"><span id="level"></span></span>
+      </div>
+    </header>
+
+    <div id="progress" class="progress" hidden></div>
+
+    <main id="transcript" class="transcript">
+      <div class="row head">
+        <div class="speaker"></div>
+        <div>Original</div>
+        <div>Traducción <small id="mt-notice"></small></div>
+      </div>
+      <div id="rows"></div>
+      <p id="empty" class="empty">
+        Pulse <b>Iniciar llamada</b> y comparta el audio de la llamada. Lo que digan el proveedor y el paciente
+        aparecerá aquí con su traducción.
+      </p>
+    </main>
+
+    <footer class="foot">
+      <span>🔒 Procesamiento local · no se graba ni se guarda nada · <kbd>Esc</kbd> borra la pantalla</span>
+      <span id="queue"></span>
+    </footer>
+
+    <dialog id="ack">
+      <form method="dialog">
+        <h2>Antes de empezar</h2>
+        <p>Política de <b id="company"></b>. Confirme cada punto:</p>
+        <ul id="ack-list"></ul>
+        <menu>
+          <button value="cancel" formnovalidate>Cancelar</button>
+          <button id="ack-ok" value="ok" class="primary">Aceptar e iniciar</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
