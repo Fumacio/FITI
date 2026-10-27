@@ -16,6 +16,11 @@
         </select>
         <button id="start" class="primary" disabled>Cargando modelos…</button>
         <button id="end" class="danger" disabled>Terminar llamada y borrar</button>
+        <span class="hold">
+          <button id="hold" title="Temporizador de espera según el protocolo">⏸ Espera</button>
+          <span id="hold-time" class="hold-time" hidden></span>
+          <button id="hold-reset" hidden title="El proveedor volvió y extendió la espera">↺ Reiniciar</button>
+        </span>
       </div>
       <div class="status">
         <span id="state" class="pill">Inactivo</span>
@@ -24,7 +29,9 @@
     </header>
 
     <div id="progress" class="progress" hidden></div>
+    <div id="hold-banner" class="banner" hidden></div>
 
+    <div class="layout">
     <main id="transcript" class="transcript">
       <div class="row head">
         <div class="speaker"></div>
@@ -37,6 +44,22 @@
         aparecerá aquí con su traducción.
       </p>
     </main>
+
+    <aside class="side">
+      <div class="tabs" role="tablist">
+        <button role="tab" data-tab="protocol" aria-selected="true">Protocolo</button>
+        <button role="tab" data-tab="glossary" aria-selected="false">Glosario</button>
+      </div>
+      <section id="tab-protocol" class="tab">
+        <ul id="reminders" class="reminders"></ul>
+        <div id="sections"></div>
+      </section>
+      <section id="tab-glossary" class="tab" hidden>
+        <input id="glossary-q" type="search" placeholder="Buscar: NPO, falta de aire, stroke…" autocomplete="off" />
+        <ul id="glossary-results" class="results"></ul>
+      </section>
+    </aside>
+    </div>
 
     <footer class="foot">
       <span>🔒 Procesamiento local · no se graba ni se guarda nada · <kbd>Esc</kbd> borra la pantalla</span>

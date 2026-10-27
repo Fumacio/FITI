@@ -3,3 +3,6 @@ dist/
 public/models/*
 !public/models/README.md
 *.log
+
+# Contenido propio de la empresa (confidencial): nunca al repositorio
+public/*.local.json

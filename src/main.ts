@@ -4,12 +4,15 @@ import { maskIdentifiers } from './core/redact';
 import { Segmenter } from './audio/segmenter';
 import { listInputDevices, startCapture, type CaptureHandle, type CaptureSource } from './audio/capture';
 import type { FromWorker, Lang, ToWorker } from './core/messages';
+import type { Glossary, GlossaryMatch } from './glossary/glossary';
+import { setupSidebar, termChip } from './sidebar';
 
 interface Entry {
   id: number;
   lang?: Lang;
   text: string;
   translation: string;
+  terms: GlossaryMatch[];
   pending: boolean;
 }
 
@@ -38,13 +41,14 @@ let nextId = 1;
 let capture: CaptureHandle | null = null;
 let inactivityTimer: number | undefined;
 let policy: CompanyPolicy;
+let glossary: Glossary | null = null;
 
 const worker = new Worker(new URL('./worker.ts', import.meta.url), { type: 'module' });
 const send = (msg: ToWorker, transfer: Transferable[] = []) => worker.postMessage(msg, transfer);
 
 const segmenter = new Segmenter(({ audio, durationSec }) => {
   const id = nextId++;
-  entries.push({ id, text: '', translation: '', pending: true });
+  entries.push({ id, text: '', translation: '', terms: [], pending: true });
   trimEntries();
   render();
   send({ type: 'segment', id, audio, durationSec }, [audio.buffer]);
@@ -55,11 +59,15 @@ async function main() {
   const allowed = policy.models.source === 'local' ? [] : policy.network.allowedOrigins;
   installNetworkGuard(allowed, (url) => console.warn('Bloqueado:', url));
   applyPrivacyProtections();
+  // Los elementos fijos (encabezado de la tabla, panel lateral) se colocan bajo la barra superior.
+  const bar = document.querySelector<HTMLElement>('.bar')!;
+  new ResizeObserver(() => document.documentElement.style.setProperty('--bar-h', `${bar.offsetHeight}px`)).observe(bar);
   ui.mtNotice.textContent = `· ${policy.display.machineTranslationNotice}`;
 
   worker.onmessage = (e: MessageEvent<FromWorker>) => onWorkerMessage(e.data);
   send({ type: 'init', policy });
   void populateDevices();
+  setupSidebar(import.meta.env.BASE_URL).then((g) => (glossary = g));
 
   ui.start.addEventListener('click', () => void requestStart());
   ui.end.addEventListener('click', endCall);
@@ -84,6 +92,7 @@ function onWorkerMessage(msg: FromWorker) {
       entry.lang = msg.lang;
       entry.text = show(msg.text);
       entry.translation = show(msg.translation);
+      entry.terms = glossary?.find(msg.text, msg.lang) ?? [];
       entry.pending = false;
       render();
       resetInactivityTimer();
@@ -231,6 +240,11 @@ function render() {
       const original = cell('original', entry.pending ? 'Transcribiendo…' : entry.text);
       const translation = cell('translation', entry.translation);
       row.append(speaker, original, translation);
+      if (entry.lang && entry.terms.length > 0) {
+        const terms = cell('terms', '');
+        terms.append(...entry.terms.map((m) => termChip(m, entry.lang!)));
+        row.append(terms);
+      }
       return row;
     }),
   );

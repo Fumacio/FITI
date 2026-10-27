@@ -35,6 +35,28 @@ cumplimiento la sección "Cómo protege la privacidad".
 | Solo se captura el audio de la llamada, no la voz del intérprete | `src/audio/capture.ts` |
 | Cabeceras CSP/no-store para producción | `vite.config.ts` |
 
+## Glosario médico y protocolo de la empresa
+
+- **Glosario EN ⇄ ES integrado** (~680 términos y siglas de uso médico: sistemas
+  del cuerpo, síntomas, procedimientos, vacunas, personal, términos
+  administrativos y siglas como NPO, PRN, CBC, COPD…). Los términos que aparecen
+  en cada intervención se muestran debajo como etiquetas
+  (`NPO → nada por vía oral`), y la pestaña **Glosario** permite buscar por sigla,
+  inglés o español. Datos en `src/glossary/terms.ts`.
+- **Glosario personal**: añada sus propios términos en `public/glossary.local.json`:
+  `[{ "abbr": "ABG", "en": "arterial blood gas", "es": ["gasometría arterial"] }]`.
+- **Protocolo**: la pestaña **Protocolo** muestra los recordatorios y guiones de
+  la empresa (apertura, cierre, espera, intervenciones, mediación, dial-out,
+  llamadas caídas, descalificación) en inglés y español, con su nombre e ID
+  rellenados. Se cargan de `public/protocol.local.json`; si no existe, de
+  `public/protocol.example.json` (genérico).
+- **Temporizador de espera**: el botón *Espera* cuenta el tiempo, avisa de
+  refrescar la línea en ambos idiomas cada 10 min y avisa al llegar al máximo
+  (15 min), según el protocolo. *Reiniciar* cuando el proveedor vuelve y extiende.
+
+> Los archivos `public/*.local.json` están en `.gitignore`: los guiones de la
+> empresa suelen ser confidenciales y este repositorio es público.
+
 ## Configurar la política de la empresa
 
 Edite `public/policy.json` (no hace falta recompilar). Todas las opciones y sus

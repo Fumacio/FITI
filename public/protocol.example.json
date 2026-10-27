@@ -1,0 +1,46 @@
+{
+  "name": "Protocolo de ejemplo (genérico)",
+  "interpreter": { "name": "", "id": "", "language": "Spanish" },
+  "hold": {
+    "maxMinutes": 15,
+    "refreshEveryMinutes": 10,
+    "refresh": {
+      "en": "This is the interpreter; I am still on the line.",
+      "es": "Habla el intérprete; sigo en la línea."
+    }
+  },
+  "reminders": [
+    "Copie este archivo como protocol.local.json y ponga los guiones de su empresa (no se sube a git).",
+    "Interprete siempre en primera persona.",
+    "Identifíquese como intérprete antes de cualquier intervención."
+  ],
+  "sections": [
+    {
+      "title": "Apertura",
+      "notes": [],
+      "scripts": [
+        {
+          "title": "Presentación al proveedor",
+          "to": "client",
+          "en": "Hello, my name is {name}, interpreter ID {id}. I will be your {language} interpreter today."
+        },
+        {
+          "title": "Presentación al paciente",
+          "to": "lep",
+          "es": "Hola, seré su intérprete de español. Todo lo que diga será confidencial."
+        }
+      ]
+    },
+    {
+      "title": "Cierre",
+      "notes": [],
+      "scripts": [
+        {
+          "title": "Despedida",
+          "to": "client",
+          "en": "Thank you, this was interpreter {name}, ID {id}."
+        }
+      ]
+    }
+  ]
+}
